@@ -23,6 +23,20 @@ fn main {
           abort("json error")
         }
       }
+    "iface" | "check-interface" =>
+      run_iface(args) catch {
+        e => {
+          println("error: \{e.to_string()}")
+          abort("iface error")
+        }
+      }
+    "glue" =>
+      run_glue(args) catch {
+        e => {
+          println("error: \{e.to_string()}")
+          abort("glue error")
+        }
+      }
     "demo" | "" =>
       run_demo() catch {
         e => {
@@ -54,11 +68,35 @@ fn print_help() -> Unit {
   println(
     "  moon run cmd/main -- json <type>     Print JSON layout of a type expression",
   )
+  println("  moon run cmd/main -- glue <type>     Emit MoonBit lift/lower glue")
+  println(
+    "  moon run cmd/main -- iface <wit-src>  ABI report for a compact interface",
+  )
   println("  moon run cmd/main -- version           Print the version")
   println("  moon run cmd/main -- help      Show this help")
 }
 
 ///|
+
+///|
+fn run_glue(args : Array[String]) -> Unit raise {
+  if args.length() < 3 {
+    abort("usage: moon run cmd/main -- glue <type-expr>")
+  }
+  let expr = args[2]
+  let (reg, ty) = @abi.parse_type_expr(expr)
+  println(@abi.emit_moonbit_glue(reg, ty))
+}
+
+///|
+fn run_iface(args : Array[String]) -> Unit raise {
+  if args.length() < 3 {
+    abort("usage: moon run cmd/main -- iface <wit-src-or-inline>")
+  }
+  let src = args[2]
+  let (reg, doc) = @abi.parse_interface(src)
+  println(@abi.interface_report(reg, doc))
+}
 
 ///|
 fn run_json(args : Array[String]) -> Unit raise {

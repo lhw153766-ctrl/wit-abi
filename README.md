@@ -43,6 +43,10 @@ Replace `local` with your mooncakes username after publish.
 
 ```bash
 moon run cmd/main -- demo
+moon run cmd/main -- layout "option<string>"
+moon run cmd/main -- json "result<u32, f64>"
+moon run cmd/main -- glue "option<u32>"
+moon run cmd/main -- iface "interface x { greet: func(name: string) -> string; }"
 ```
 
 ## What it computes
@@ -55,6 +59,8 @@ moon run cmd/main -- demo
 | `payload_offset` | offset of a variant payload after the discriminant |
 | `flatten` | Canonical ABI lowering to core Wasm types |
 | `wasm_signature` | guest-import / guest-export function ABI, including indirect params and retptr |
+| `emit_moonbit_glue` | MoonBit lift/lower sketches from computed offsets |
+| `parse_interface` / `interface_report` | compact WIT interface → ABI report |
 
 ## Explicitly out of scope
 

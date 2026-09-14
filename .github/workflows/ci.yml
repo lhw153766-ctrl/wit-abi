@@ -52,6 +52,12 @@ jobs:
       - name: JSON CLI
         run: moon run cmd/main -- json "result<u32, f64>"
 
+      - name: Glue CLI
+        run: moon run cmd/main -- glue "option<u32>"
+
+      - name: Interface CLI
+        run: moon run cmd/main -- iface "interface x { greet: func(name: string) -> string; }"
+
       - name: Package
         run: moon package --list
 

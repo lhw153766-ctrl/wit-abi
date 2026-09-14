@@ -6,4 +6,6 @@
 - Flattening and guest-import / guest-export wasm signatures
 - Compact WIT type-expression parser (`option<string>`, `result<u32, f64>`, tuples)
 - Lowering steps with wasm32 offsets and JSON layout dump
-- CLI: `demo`, `layout`, `json`
+- Compact WIT interface documents (`parse_interface`) and `iface` CLI
+- MoonBit lift/lower glue emitter (`emit_moonbit_glue`)
+- Property invariants and extra wasm-tools-style layout vectors

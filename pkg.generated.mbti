@@ -10,6 +10,8 @@ pub const MAX_FLAT_PARAMS : Int = 16
 
 pub const MAX_FLAT_RESULTS : Int = 1
 
+pub fn abi_card(Registry, ValType, String) -> String raise AbiError
+
 pub fn alias_type(Registry, ValType) -> ValType
 
 pub fn align32(Registry, ValType) -> Int raise AbiError
@@ -22,6 +24,12 @@ pub fn demo_registry() -> Registry
 
 pub fn discriminant_type(Int) -> DiscInt
 
+pub fn emit_func_glue(Registry, Func, String) -> String raise AbiError
+
+pub fn emit_moonbit_glue(Registry, ValType) -> String raise AbiError
+
+pub fn emit_named_glue(Registry, ValType, String) -> String raise AbiError
+
 pub fn enum_type(Registry, Int) -> ValType
 
 pub fn flags_repr(Int) -> FlagsRepr
@@ -32,7 +40,13 @@ pub fn flatten(Registry, ValType) -> Array[WasmType] raise AbiError
 
 pub fn format_layout(ElementInfo) -> String
 
+pub fn func_card(Registry, Func, String) -> String raise AbiError
+
 pub fn handle_type(Registry) -> ValType
+
+pub fn interface_json(Registry, IfaceDoc) -> String raise AbiError
+
+pub fn interface_report(Registry, IfaceDoc) -> String raise AbiError
 
 pub fn layout(Registry, ValType) -> ElementInfo raise AbiError
 
@@ -47,6 +61,8 @@ pub fn lower_to_string(Array[LowerStep]) -> String
 pub fn named(Int) -> ValType
 
 pub fn option_type(Registry, ValType) -> ValType
+
+pub fn parse_interface(String) -> (Registry, IfaceDoc) raise TypeExprError
 
 pub fn parse_type_expr(String) -> (Registry, ValType) raise TypeExprError
 
@@ -152,6 +168,20 @@ pub(all) struct Func {
   is_method : Bool
 } derive(Eq, @debug.Debug)
 pub fn Func::new(Array[ValType], ValType?, is_method? : Bool) -> Self
+
+pub(all) struct IfaceDoc {
+  package_name : String?
+  types : Array[(String, ValType)]
+  funcs : Array[IfaceFunc]
+  worlds : Array[String]
+}
+pub fn IfaceDoc::empty() -> Self
+
+pub(all) struct IfaceFunc {
+  name : String
+  params : Array[ValType]
+  result : ValType?
+} derive(Eq, @debug.Debug)
 
 pub(all) enum LowerOp {
   LoadI32
