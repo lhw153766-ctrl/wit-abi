@@ -45,7 +45,7 @@ Module name must match `moon.mod` `name`.
 https://bxup9uklfcb.feishu.cn/share/base/form/shrcnWUMlgpbwHaXgzV7HmNhNhg
 
 Paste `PROPOSAL.md` as the one-page proposal. Attach the public GitHub URL.
-The repo already has more than 10 real commits.
+The repo already has 14 real commits.
 
 ## 5. Acceptance checklist
 
@@ -53,8 +53,8 @@ The repo already has more than 10 real commits.
 - [ ] Public GitHub repo, history on the default branch
 - [ ] README with install + demo command
 - [ ] CI (`.github/workflows/ci.yml`)
-- [ ] `moon test` green (63 tests at freeze)
-- [ ] `moon run cmd/main -- demo` works
+- [ ] `moon test` green (162 tests at freeze)
+- [ ] `moon run cmd/main -- demo|layout|json|glue|iface` works
 - [ ] Published on mooncakes.io
 - [ ] Apache-2.0 `LICENSE` + `THIRD_PARTY.md`
 - [ ] In the event group

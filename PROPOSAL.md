@@ -38,8 +38,10 @@ Delivered:
   flags, enums, variants, option, result, handles, future, stream, alias
 - Size / alignment / architecture-size arithmetic matching wasm-tools tests
 - Flattening and wasm signatures for sync GuestImport / GuestExport
-- CLI demo (`moon run cmd/main -- demo`)
-- Tests that pin wasm-tools `align_to_arch` vectors and ABI edge cases
+- Compact type expressions and compact `interface`/`world` documents
+- MoonBit lift/lower glue sketches from computed offsets
+- CLI: `demo`, `layout`, `json`, `glue`, `iface`
+- 162 tests; `moon check --target all`
 - Apache-2.0, CI, README with a runnable `mbt check` example
 
 Not this round:
