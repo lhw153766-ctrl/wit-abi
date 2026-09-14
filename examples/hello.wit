@@ -1,0 +1,11 @@
+package docs:hello;
+
+interface greet {
+  type id = u32;
+  greet: func(name: string) -> string;
+  ping: func();
+}
+
+world hello {
+  export greet;
+}
