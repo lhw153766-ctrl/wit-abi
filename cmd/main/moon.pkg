@@ -1,0 +1,6 @@
+import {
+  "moonbitlang/core/env",
+  "local/wit-abi" @abi,
+}
+
+pkgtype(kind: "executable")
