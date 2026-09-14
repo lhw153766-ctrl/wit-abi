@@ -1,0 +1,249 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "local/wit-abi"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub const MAX_FLAT_PARAMS : Int = 16
+
+pub const MAX_FLAT_RESULTS : Int = 1
+
+pub fn alias_type(Registry, ValType) -> ValType
+
+pub fn align32(Registry, ValType) -> Int raise AbiError
+
+pub fn align_to(Int, Int) -> Int
+
+pub fn align_to_arch(ArchSize, Alignment) -> ArchSize
+
+pub fn demo_registry() -> Registry
+
+pub fn discriminant_type(Int) -> DiscInt
+
+pub fn enum_type(Registry, Int) -> ValType
+
+pub fn flags_repr(Int) -> FlagsRepr
+
+pub fn flags_type(Registry, Int) -> ValType
+
+pub fn flatten(Registry, ValType) -> Array[WasmType] raise AbiError
+
+pub fn format_layout(ElementInfo) -> String
+
+pub fn handle_type(Registry) -> ValType
+
+pub fn layout(Registry, ValType) -> ElementInfo raise AbiError
+
+pub fn layout_json(Registry, ValType) -> String raise AbiError
+
+pub fn list_type(Registry, ValType) -> ValType
+
+pub fn lower(Registry, ValType) -> Array[LowerStep] raise AbiError
+
+pub fn lower_to_string(Array[LowerStep]) -> String
+
+pub fn named(Int) -> ValType
+
+pub fn option_type(Registry, ValType) -> ValType
+
+pub fn parse_type_expr(String) -> (Registry, ValType) raise TypeExprError
+
+pub fn record_type(Registry, Array[Field]) -> ValType
+
+pub fn result_type(Registry, ValType?, ValType?) -> ValType
+
+pub fn size32(Registry, ValType) -> Int raise AbiError
+
+pub fn tuple_type(Registry, Array[ValType]) -> ValType
+
+pub fn variant_type(Registry, Array[Case]) -> ValType
+
+pub fn wasm_signature(Registry, Func, AbiVariant) -> WasmSignature raise AbiError
+
+pub fn wasm_types_to_string(Array[WasmType]) -> String
+
+// Errors
+pub(all) suberror AbiError {
+  Overflow(String)
+  InvalidType(String)
+  UnknownNamed(Int)
+}
+pub fn AbiError::to_string(Self) -> String
+pub impl Show for AbiError
+
+pub(all) suberror TypeExprError {
+  Unexpected(String)
+}
+pub impl Show for TypeExprError
+
+// Types and methods
+pub(all) enum AbiVariant {
+  GuestImport
+  GuestExport
+} derive(Eq, @debug.Debug)
+
+pub(all) enum Alignment {
+  Pointer
+  Bytes(Int)
+} derive(Eq, @debug.Debug)
+pub fn Alignment::align_wasm32(Self) -> Int
+pub fn Alignment::align_wasm64(Self) -> Int
+pub fn Alignment::max(Self, Self) -> Self
+pub fn Alignment::to_size(Self) -> ArchSize
+pub impl Compare for Alignment
+pub impl Show for Alignment
+
+pub(all) struct ArchSize {
+  bytes : Int
+  pointers : Int
+} derive(Eq, @debug.Debug)
+pub fn ArchSize::add(Self, Self) -> Self
+pub fn ArchSize::add_bytes(Self, Int) -> Self
+pub fn ArchSize::is_empty(Self) -> Bool
+pub fn ArchSize::max(Self, Self) -> Self
+pub fn ArchSize::new(Int, Int) -> Self
+pub fn ArchSize::size_wasm32(Self) -> Int
+pub fn ArchSize::size_wasm64(Self) -> Int
+pub fn ArchSize::zero() -> Self
+pub impl Show for ArchSize
+
+pub(all) struct Case {
+  name : String
+  ty : ValType?
+} derive(Eq, @debug.Debug)
+pub fn Case::new(String, ValType?) -> Self
+
+pub(all) enum DiscInt {
+  U8
+  U16
+  U32
+  U64
+} derive(Eq, @debug.Debug)
+pub fn DiscInt::to_valtype(Self) -> ValType
+pub impl Show for DiscInt
+
+pub(all) struct ElementInfo {
+  size : ArchSize
+  align : Alignment
+} derive(Eq)
+pub fn ElementInfo::from_align(Alignment) -> Self
+pub fn ElementInfo::new(ArchSize, Alignment) -> Self
+pub impl Show for ElementInfo
+
+pub(all) struct Field {
+  name : String
+  ty : ValType
+} derive(Eq, @debug.Debug)
+pub fn Field::new(String, ValType) -> Self
+
+pub(all) enum FlagsRepr {
+  U8
+  U16
+  U32(Int)
+} derive(Eq, @debug.Debug)
+pub fn FlagsRepr::count(Self) -> Int
+pub impl Show for FlagsRepr
+
+pub(all) struct Func {
+  params : Array[ValType]
+  result : ValType?
+  is_method : Bool
+} derive(Eq, @debug.Debug)
+pub fn Func::new(Array[ValType], ValType?, is_method? : Bool) -> Self
+
+pub(all) enum LowerOp {
+  LoadI32
+  LoadI64
+  LoadF32
+  LoadF64
+  LoadPointer
+  LoadLength
+  LoadTag(WasmType)
+} derive(Eq, @debug.Debug)
+pub impl Show for LowerOp
+
+pub(all) struct LowerStep {
+  op : LowerOp
+  offset32 : Int
+} derive(Eq, @debug.Debug)
+pub impl Show for LowerStep
+
+pub(all) struct Registry {
+  types : Array[TypeDef]
+}
+pub fn Registry::add(Self, TypeDef) -> Int
+pub fn Registry::get(Self, Int) -> TypeDef raise AbiError
+pub fn Registry::new() -> Self
+
+pub(all) struct SizeAlign {
+  map : Array[ElementInfo]
+}
+pub fn SizeAlign::align(Self, ValType) -> Alignment
+pub fn SizeAlign::field_offsets(Self, Array[ValType]) -> Array[ArchSize]
+pub fn SizeAlign::fill(Registry) -> Self raise AbiError
+pub fn SizeAlign::payload_offset(Self, DiscInt, Array[ValType?]) -> ArchSize
+pub fn SizeAlign::record(Self, Array[ValType]) -> ElementInfo
+pub fn SizeAlign::size(Self, ValType) -> ArchSize
+
+pub(all) enum TypeDef {
+  Alias(ValType)
+  List(ValType)
+  Map(ValType, ValType)
+  FixedList(ValType, Int)
+  Record(Array[Field])
+  Tuple(Array[ValType])
+  Flags(Int)
+  Variant(Array[Case])
+  Enum(Int)
+  Option(ValType)
+  Result(ValType?, ValType?)
+  Handle
+  Future
+  Stream
+  Resource
+} derive(Eq, @debug.Debug)
+pub impl Show for TypeDef
+
+pub(all) enum ValType {
+  Bool
+  U8
+  S8
+  U16
+  S16
+  U32
+  S32
+  U64
+  S64
+  F32
+  F64
+  Char
+  String
+  ErrorContext
+  Named(Int)
+} derive(Eq, @debug.Debug)
+pub impl Show for ValType
+
+pub(all) struct WasmSignature {
+  params : Array[WasmType]
+  results : Array[WasmType]
+  indirect_params : Bool
+  retptr : Bool
+} derive(Eq, @debug.Debug)
+pub impl Show for WasmSignature
+
+pub(all) enum WasmType {
+  I32
+  I64
+  F32
+  F64
+  Pointer
+  PointerOrI64
+  Length
+} derive(Eq, @debug.Debug)
+pub impl Show for WasmType
+
+// Type aliases
+
+// Traits

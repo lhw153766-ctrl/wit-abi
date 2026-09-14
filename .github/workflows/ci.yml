@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-and-test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install MoonBit (unix)
+        if: runner.os != 'Windows'
+        run: |
+          curl -fsSL https://cli.moonbitlang.cn/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Install MoonBit (windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.cn/install/powershell.ps1 | iex
+          "$env:USERPROFILE\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Versions
+        run: moon version --all
+
+      - name: Format
+        run: moon fmt --check
+
+      - name: Check
+        run: moon check --target all
+
+      - name: Test
+        run: moon test --target all
+
+      - name: Demo
+        run: moon run cmd/main -- demo
+
+      - name: Layout CLI
+        run: moon run cmd/main -- layout "option<string>"
+
+      - name: JSON CLI
+        run: moon run cmd/main -- json "result<u32, f64>"
+
+      - name: Package
+        run: moon package --list
+
+      - name: Public interface
+        run: |
+          moon info
+          git diff --exit-code -- '*.mbti'
