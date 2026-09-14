@@ -1,0 +1,1 @@
+{"size32":12,"size64":24,"align32":4,"align64":8,"flat":["i32","pointer","length"],"lower":[{"op":"tag(i32)","offset32":0},{"op":"pointer","offset32":4},{"op":"length","offset32":8}]}

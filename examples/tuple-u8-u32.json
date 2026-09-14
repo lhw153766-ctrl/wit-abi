@@ -1,0 +1,1 @@
+{"size32":8,"size64":8,"align32":4,"align64":4,"flat":["i32","i32"],"lower":[{"op":"i32","offset32":0},{"op":"i32","offset32":4}]}
