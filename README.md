@@ -47,6 +47,7 @@ moon run cmd/main -- layout "option<string>"
 moon run cmd/main -- json "result<u32, f64>"
 moon run cmd/main -- glue "option<u32>"
 moon run cmd/main -- iface "interface x { greet: func(name: string) -> string; }"
+moon run cmd/main -- from-json '{"funcs":[{"name":"greet","params":["string"],"result":"string"}]}'
 ```
 
 ## What it computes

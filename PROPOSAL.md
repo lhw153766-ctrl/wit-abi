@@ -40,8 +40,10 @@ Delivered:
 - Flattening and wasm signatures for sync GuestImport / GuestExport
 - Compact type expressions and compact `interface`/`world` documents
 - MoonBit lift/lower glue sketches from computed offsets
-- CLI: `demo`, `layout`, `json`, `glue`, `iface`
-- 162 tests; `moon check --target all`
+- Guest linear-memory simulator (little-endian load/store + string pairs)
+- Compact iface JSON import for tool-chain interchange
+- CLI: `demo`, `layout`, `json`, `glue`, `iface`, `from-json`
+- 179 tests; `moon check --target all`; ~4100 lines of `.mbt`
 - Apache-2.0, CI, README with a runnable `mbt check` example
 
 Not this round:

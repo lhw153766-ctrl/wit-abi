@@ -40,6 +40,10 @@ pub fn flatten(Registry, ValType) -> Array[WasmType] raise AbiError
 
 pub fn format_layout(ElementInfo) -> String
 
+pub fn from_iface_json(String) -> (Registry, IfaceDoc) raise
+
+pub fn from_type_json(String) -> (Registry, ValType) raise
+
 pub fn func_card(Registry, Func, String) -> String raise AbiError
 
 pub fn handle_type(Registry) -> ValType
@@ -70,6 +74,8 @@ pub fn record_type(Registry, Array[Field]) -> ValType
 
 pub fn result_type(Registry, ValType?, ValType?) -> ValType
 
+pub fn roundtrip_i32s(Registry, ValType, Array[Int]) -> Array[Int] raise AbiError
+
 pub fn size32(Registry, ValType) -> Int raise AbiError
 
 pub fn tuple_type(Registry, Array[ValType]) -> ValType
@@ -88,6 +94,12 @@ pub(all) suberror AbiError {
 }
 pub fn AbiError::to_string(Self) -> String
 pub impl Show for AbiError
+
+pub(all) suberror JsonAstError {
+  BadJson(String)
+  Missing(String)
+}
+pub impl Show for JsonAstError
 
 pub(all) suberror TypeExprError {
   Unexpected(String)
@@ -168,6 +180,23 @@ pub(all) struct Func {
   is_method : Bool
 } derive(Eq, @debug.Debug)
 pub fn Func::new(Array[ValType], ValType?, is_method? : Bool) -> Self
+
+pub(all) struct GuestMem {
+  bytes : Array[Byte]
+}
+pub fn GuestMem::len(Self) -> Int
+pub fn GuestMem::load_i32(Self, Int) -> Int
+pub fn GuestMem::load_i64(Self, Int) -> Int64
+pub fn GuestMem::load_steps(Self, Array[LowerStep]) -> Array[Int]
+pub fn GuestMem::load_string(Self, Int) -> String
+pub fn GuestMem::load_u8(Self, Int) -> Int
+pub fn GuestMem::new(Int) -> Self
+pub fn GuestMem::store_bytes(Self, Int, Array[Byte]) -> Unit
+pub fn GuestMem::store_i32(Self, Int, Int) -> Unit
+pub fn GuestMem::store_i64(Self, Int, Int64) -> Unit
+pub fn GuestMem::store_steps(Self, Array[LowerStep], Array[Int]) -> Unit
+pub fn GuestMem::store_string(Self, Int, Int, String) -> Unit
+pub fn GuestMem::store_u8(Self, Int, Int) -> Unit
 
 pub(all) struct IfaceDoc {
   package_name : String?

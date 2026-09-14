@@ -37,6 +37,13 @@ fn main {
           abort("glue error")
         }
       }
+    "from-json" =>
+      run_from_json(args) catch {
+        e => {
+          println("error: \{e.to_string()}")
+          abort("from-json error")
+        }
+      }
     "demo" | "" =>
       run_demo() catch {
         e => {
@@ -72,11 +79,24 @@ fn print_help() -> Unit {
   println(
     "  moon run cmd/main -- iface <wit-src>  ABI report for a compact interface",
   )
+  println(
+    "  moon run cmd/main -- from-json <json> ABI report from compact iface JSON",
+  )
   println("  moon run cmd/main -- version           Print the version")
   println("  moon run cmd/main -- help      Show this help")
 }
 
 ///|
+
+///|
+fn run_from_json(args : Array[String]) -> Unit raise {
+  if args.length() < 3 {
+    abort("usage: moon run cmd/main -- from-json <json>")
+  }
+  let src = args[2]
+  let (reg, doc) = @abi.from_iface_json(src)
+  println(@abi.interface_report(reg, doc))
+}
 
 ///|
 fn run_glue(args : Array[String]) -> Unit raise {
