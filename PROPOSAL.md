@@ -1,4 +1,4 @@
-# Project declaration — local/wit-abi
+# Project declaration — lhw153766-ctrl/wit-abi
 
 One-page Markdown for the 2026 MoonBit September Hackathon.
 

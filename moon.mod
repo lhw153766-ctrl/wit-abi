@@ -9,13 +9,13 @@
 //   "moonbitlang/x@0.4.6",
 // }
 
-name = "local/wit-abi"
+name = "lhw153766-ctrl/wit-abi"
 
 version = "0.1.0"
 
 readme = "README.mbt.md"
 
-repository = ""
+repository = "https://github.com/lhw153766-ctrl/wit-abi"
 
 license = "Apache-2.0"
 

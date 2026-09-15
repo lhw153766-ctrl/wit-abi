@@ -1,4 +1,4 @@
-# local/wit-abi
+# lhw153766-ctrl/wit-abi
 
 Pure MoonBit **Canonical ABI** engine for WIT (Wasm Interface Types).
 
@@ -34,7 +34,7 @@ test "readme record layout" {
 ## Install
 
 ```bash
-moon add local/wit-abi@0.1.0
+moon add lhw153766-ctrl/wit-abi@0.1.0
 ```
 
 Replace `local` with your mooncakes username after publish.

@@ -20,7 +20,7 @@ Then edit `moon.mod`:
 - `name = "<YOUR_GITHUB_ID>/wit-abi"`
 - `repository = "https://github.com/<YOUR_GITHUB_ID>/wit-abi"`
 
-and `cmd/main/moon.pkg` import path from `"local/wit-abi"` to
+and `cmd/main/moon.pkg` import path from `"lhw153766-ctrl/wit-abi"` to
 `"<YOUR_GITHUB_ID>/wit-abi"`. Re-run `moon check && moon test && moon info`.
 
 ## 2. Join the event WeChat group

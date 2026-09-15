@@ -1,6 +1,6 @@
 import {
   "moonbitlang/core/env",
-  "local/wit-abi" @abi,
+  "lhw153766-ctrl/wit-abi" @abi,
 }
 
 pkgtype(kind: "executable")

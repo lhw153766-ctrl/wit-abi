@@ -1,6 +1,6 @@
 # Third-party notices
 
-`local/wit-abi` reimplements Canonical ABI layout and flattening algorithms
+`lhw153766-ctrl/wit-abi` reimplements Canonical ABI layout and flattening algorithms
 from Bytecode Alliance `wasm-tools`, specifically:
 
 - Repository: https://github.com/bytecodealliance/wasm-tools
