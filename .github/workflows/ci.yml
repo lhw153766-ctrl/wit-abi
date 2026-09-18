@@ -20,15 +20,35 @@ jobs:
       - name: Install MoonBit (unix)
         if: runner.os != 'Windows'
         run: |
-          curl -fsSL https://cli.moonbitlang.cn/install/unix.sh | bash
+          for attempt in 1 2 3; do
+            if curl -fsSL --retry 3 --retry-delay 5 \
+                https://cli.moonbitlang.cn/install/unix.sh -o /tmp/install-moonbit.sh; then
+              break
+            fi
+            echo "download attempt $attempt failed"; sleep 5
+          done
+          bash /tmp/install-moonbit.sh
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
 
       - name: Install MoonBit (windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-          irm https://cli.moonbitlang.cn/install/powershell.ps1 | iex
+          $ErrorActionPreference = 'Stop'
+          $script = Join-Path $env:RUNNER_TEMP 'install-moonbit.ps1'
+          $url = 'https://cli.moonbitlang.cn/install/powershell.ps1'
+          for ($i = 1; $i -le 3; $i++) {
+            try {
+              Invoke-WebRequest -Uri $url -OutFile $script -UseBasicParsing -TimeoutSec 90
+              break
+            } catch {
+              Write-Host "download attempt $i failed: $($_.Exception.Message)"
+              if ($i -eq 3) { throw }
+              Start-Sleep -Seconds 5
+            }
+          }
+          powershell -NoProfile -ExecutionPolicy Bypass -File $script
+          if ($LASTEXITCODE -ne 0) { throw "MoonBit installer exited with $LASTEXITCODE" }
           "$env:USERPROFILE\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
 
       - name: Versions
